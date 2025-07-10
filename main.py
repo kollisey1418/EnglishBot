@@ -42,7 +42,8 @@ async def ask_openrouter(prompt):
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=json_data) as resp:
             data = await resp.json()
-            return data["choices"][0]["message"]["content"]
+            print(data)  # 👈 добавь это
+            return data.get("choices", [{}])[0].get("message", {}).get("content", "No response")
 
 # Отправка рандомного сообщения
 async def send_random_message():
@@ -89,7 +90,6 @@ async def level_callback(callback: types.CallbackQuery):
         prompt = f"Write a friendly greeting and ask the user a simple question about their daily routine in English, according to CEFR level {level}."
         text = await ask_openrouter(prompt)
         await callback.message.answer(text)
-
         await callback.answer()
 
 # Обработка всех сообщений
