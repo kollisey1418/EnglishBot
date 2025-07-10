@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Начало для Чат-бота" />
+    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Добавил текстовый файл с перечнем зависимостей для railway" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +62,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1752161189269</updated>
-      <workItem from="1752161190304" duration="2398000" />
+      <workItem from="1752161190304" duration="2728000" />
     </task>
     <task id="LOCAL-00001" summary="Начало для Чат-бота">
       <option name="closed" value="true" />
@@ -88,7 +88,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752163228064</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Добавил текстовый файл с перечнем зависимостей для railway">
+      <option name="closed" value="true" />
+      <created>1752163746762</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1752163746762</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -96,6 +104,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Начало для Чат-бота" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начало для Чат-бота" />
+    <MESSAGE value="Добавил текстовый файл с перечнем зависимостей для railway" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил текстовый файл с перечнем зависимостей для railway" />
   </component>
 </project>

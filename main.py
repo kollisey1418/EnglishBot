@@ -4,7 +4,7 @@ from datetime import datetime, time
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import aiohttp
 
@@ -19,8 +19,11 @@ scheduler = AsyncIOScheduler()
 
 # Клавиатура выбора уровня
 def level_keyboard():
-    kb = [[KeyboardButton(text=level)] for level in ["A1", "A2", "B1", "B2", "C1", "C2"]]
-    return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+    kb = [
+        [InlineKeyboardButton(text=level, callback_data=level)]
+        for level in ["A1", "A2", "B1", "B2", "C1", "C2"]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=kb)
 
 # Запрос к OpenRouter
 async def ask_openrouter(prompt):
