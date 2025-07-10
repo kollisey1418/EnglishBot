@@ -28,6 +28,7 @@ async def get_user_level(user_id):
         async with db.execute("SELECT level FROM users WHERE user_id = ?", (user_id,)) as cursor:
             row = await cursor.fetchone()
             if row:
-                print(f"🔎 Fetched level for user {user_id}: {result[0] if result else 'None'}")
+                print(f"✅ Fetched level for user {user_id}: {row[0]}")
                 return row[0]
+            print(f"❌ No level found for user {user_id}")
             return None
