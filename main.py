@@ -1,24 +1,24 @@
 import asyncio
 import random
 from datetime import datetime, time
+import os
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import aiohttp
-from aiogram import F
 
 from database import init_db, set_user_level, get_user_level
 
-API_TOKEN = "7782841483:AAE5ZnPFN_ZA30i8vDoufUyGQpL4ihg7usA"
-OPENROUTER_API_KEY = "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"
+API_TOKEN = os.getenv("7782841483:AAE5ZnPFN_ZA30i8vDoufUyGQpL4ihg7usA")
+OPENROUTER_API_KEY = os.getenv("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")
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 scheduler = AsyncIOScheduler()
 
-# Клавиатура выбора уровня
+# Inline клавиатура выбора уровня
 def level_keyboard():
     kb = [
         [InlineKeyboardButton(text=level, callback_data=level)]
@@ -77,24 +77,21 @@ async def start_cmd(message: types.Message):
 async def change_cmd(message: types.Message):
     await message.answer("Please choose your new English level:", reply_markup=level_keyboard())
 
-@dp.callback_query(F.data.in_(["A1", "A2", "B1", "B2", "C1", "C2"]))
+# Обработка выбора уровня через callback
+@dp.callback_query()
 async def level_callback(callback: types.CallbackQuery):
     user_id = callback.from_user.id
     level = callback.data
-    await set_user_level(user_id, level)
-    await callback.message.answer(f"Your level is set to {level}.")
-    await callback.answer()
+    if level in ["A1", "A2", "B1", "B2", "C1", "C2"]:
+        await set_user_level(user_id, level)
+        await callback.message.answer(f"Your level is set to {level}.")
+        await callback.answer()
 
-# Обработка сообщений
+# Обработка всех сообщений
 @dp.message()
 async def handle_message(message: types.Message):
     user_id = message.from_user.id
     text = message.text.strip()
-
-    if text in ["A1", "A2", "B1", "B2", "C1", "C2"]:
-        await set_user_level(user_id, text)
-        await message.answer(f"Your level is set to {text}.")
-        return
 
     if not all(ord(c) < 128 for c in text):
         await message.answer("Sorry, I can only understand English. Please write in English.")
@@ -108,7 +105,22 @@ async def main():
     await init_db()
     scheduler.start()
     schedule_daily_message()
-    await dp.start_polling(bot)
+
+    # Webhook config
+    WEBHOOK_HOST = os.getenv("englishbot-production.up.railway.app")  # Добавь эту переменную в Railway
+    WEBHOOK_PATH = f"/bot/{API_TOKEN}"
+    WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+
+    await bot.set_webhook(WEBHOOK_URL)
+    await dp.start_webhook(
+        bot,
+        webhook_path=WEBHOOK_PATH,
+        on_startup=None,
+        on_shutdown=None,
+        skip_updates=True,
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())
