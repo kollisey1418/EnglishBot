@@ -13,9 +13,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "kollisey1418"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/kollisey1418/MyEnglishDialog",
+    "url": "https://github.com/kollisey1418/EnglishBot",
     "accountId": "433fdf6c-f64c-40d9-836a-98c4578de504"
   }
 }]]></component>
@@ -56,7 +62,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1752161189269</updated>
-      <workItem from="1752161190304" duration="1816000" />
+      <workItem from="1752161190304" duration="2398000" />
     </task>
     <task id="LOCAL-00001" summary="Начало для Чат-бота">
       <option name="closed" value="true" />
@@ -66,7 +72,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752163028985</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Начало для Чат-бота">
+      <option name="closed" value="true" />
+      <created>1752163180811</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1752163180811</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Начало для Чат-бота">
+      <option name="closed" value="true" />
+      <created>1752163228064</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1752163228064</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
