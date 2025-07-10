@@ -119,6 +119,7 @@ async def on_startup(app):
     await init_db()
     scheduler.start()
     schedule_daily_message()
+    await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_webhook(WEBHOOK_URL)
     print(f"✅ Webhook set: {WEBHOOK_URL}")
 
