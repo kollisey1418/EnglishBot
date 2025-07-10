@@ -114,7 +114,7 @@ async def main():
     schedule_daily_message()
 
     # Webhook config
-    WEBHOOK_HOST = os.getenv("englishbot-production.up.railway.app")  # Добавь эту переменную в Railway
+    WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")  # Добавь эту переменную в Railway
     WEBHOOK_PATH = f"/bot/{API_TOKEN}"
     WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
