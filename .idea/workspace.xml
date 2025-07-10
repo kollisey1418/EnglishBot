@@ -66,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1752161189269</updated>
       <workItem from="1752161190304" duration="3147000" />
-      <workItem from="1752164509149" duration="5547000" />
+      <workItem from="1752164509149" duration="6505000" />
     </task>
     <task id="LOCAL-00001" summary="Начало для Чат-бота">
       <option name="closed" value="true" />
@@ -188,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752169107634</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Добавил текстовый файл с перечнем зависимостей для railway">
+      <option name="closed" value="true" />
+      <created>1752170147248</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1752170147248</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
