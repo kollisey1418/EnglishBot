@@ -7,6 +7,7 @@ from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import aiohttp
+from aiogram import F
 
 from database import init_db, set_user_level, get_user_level
 
@@ -75,6 +76,14 @@ async def start_cmd(message: types.Message):
 @dp.message(Command("change"))
 async def change_cmd(message: types.Message):
     await message.answer("Please choose your new English level:", reply_markup=level_keyboard())
+
+@dp.callback_query(F.data.in_(["A1", "A2", "B1", "B2", "C1", "C2"]))
+async def level_callback(callback: types.CallbackQuery):
+    user_id = callback.from_user.id
+    level = callback.data
+    await set_user_level(user_id, level)
+    await callback.message.answer(f"Your level is set to {level}.")
+    await callback.answer()
 
 # Обработка сообщений
 @dp.message()
