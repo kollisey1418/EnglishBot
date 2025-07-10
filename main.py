@@ -14,6 +14,7 @@ from database import init_db, set_user_level, get_user_level
 API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
+print("🔑 API_TOKEN =", API_TOKEN)
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 scheduler = AsyncIOScheduler()
