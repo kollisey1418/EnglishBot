@@ -6,7 +6,7 @@ from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Update
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import aiohttp
-from aiohttp import web
+
 
 from database import init_db, set_user_level, get_user_level
 
@@ -107,12 +107,7 @@ async def handle_message(message: types.Message):
     reply = await ask_openrouter(prompt)
     await message.answer(reply)
 
-# Webhook handler
-async def handle(request):
-    data = await request.json()
-    update = Update(**data)
-    await dp.feed_update(bot, update)
-    return web.Response()
+
 
 async def on_startup(app):
     await init_db()
@@ -126,11 +121,28 @@ async def on_shutdown(app):
     await bot.session.close()
     print("🛑 Webhook deleted and bot session closed")
 
-app = web.Application()
-app.router.add_post(WEBHOOK_PATH, handle)
-app.on_startup.append(on_startup)
-app.on_shutdown.append(on_shutdown)
+async def main():
+    await init_db()
+    scheduler.start()
+    schedule_daily_message()
+
+    WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
+    WEBHOOK_PATH = f"/bot/{API_TOKEN}"
+    WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+
+    await bot.set_webhook(WEBHOOK_URL)
+    await dp.start_webhook(
+        bot,
+        webhook_path=WEBHOOK_PATH,
+        on_startup=None,
+        on_shutdown=None,
+        skip_updates=True,
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+    )
+
+
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    web.run_app(app, host="0.0.0.0", port=port)
+    import asyncio
+    asyncio.run(main())
