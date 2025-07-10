@@ -42,6 +42,7 @@ async def ask_openrouter(prompt):
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=json_data) as resp:
             data = await resp.json()
+            print("OpenRouter response:", data)
             print(data)  # 👈 добавь это
             return data.get("choices", [{}])[0].get("message", {}).get("content", "No response")
 
