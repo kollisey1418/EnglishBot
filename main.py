@@ -11,7 +11,7 @@ import aiohttp
 
 from database import init_db, set_user_level, get_user_level
 
-API_TOKEN = os.getenv("7782841483:AAE5ZnPFN_ZA30i8vDoufUyGQpL4ihg7usA")
+API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("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")
 
 bot = Bot(token=API_TOKEN)
