@@ -14,7 +14,7 @@ API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
 WEBHOOK_PATH = f"/bot/{API_TOKEN}"
-WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+WEBHOOK_URL = f"https://englishbot-production.up.railway.app/bot/{API_TOKEN}"
 
 print("🔑 API_TOKEN =", API_TOKEN)
 
@@ -139,4 +139,5 @@ def main():
     web.run_app(app, host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
+
     main()
