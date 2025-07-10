@@ -1,7 +1,6 @@
-import asyncio
-import random
 import os
-from datetime import datetime
+import random
+import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Update
@@ -13,8 +12,12 @@ from database import init_db, set_user_level, get_user_level
 
 API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
+WEBHOOK_PATH = f"/bot/{API_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 print("🔑 API_TOKEN =", API_TOKEN)
+
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 scheduler = AsyncIOScheduler()
@@ -96,13 +99,10 @@ async def level_callback(callback: types.CallbackQuery):
 # Обработка всех сообщений
 @dp.message()
 async def handle_message(message: types.Message):
-    user_id = message.from_user.id
     text = message.text.strip()
-
     if not all(ord(c) < 128 for c in text):
         await message.answer("Sorry, I can only understand English. Please write in English.")
         return
-
     prompt = f"Answer the user's message in English: {text}"
     reply = await ask_openrouter(prompt)
     await message.answer(reply)
@@ -115,9 +115,9 @@ async def handle(request):
     return web.Response()
 
 async def on_startup(app):
-    WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
-    WEBHOOK_PATH = f"/bot/{API_TOKEN}"
-    WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+    await init_db()
+    scheduler.start()
+    schedule_daily_message()
     await bot.set_webhook(WEBHOOK_URL)
     print(f"✅ Webhook set: {WEBHOOK_URL}")
 
@@ -126,26 +126,11 @@ async def on_shutdown(app):
     await bot.session.close()
     print("🛑 Webhook deleted and bot session closed")
 
-async def main():
-    await init_db()
-    scheduler.start()
-    schedule_daily_message()
-
-    app = web.Application()
-    app.router.add_post(f"/bot/{API_TOKEN}", handle)
-    app.on_startup.append(on_startup)
-    app.on_shutdown.append(on_shutdown)
-
-    port = int(os.environ.get("PORT", 5000))
-    web.run_app(app, host="0.0.0.0", port=port)
+app = web.Application()
+app.router.add_post(WEBHOOK_PATH, handle)
+app.on_startup.append(on_startup)
+app.on_shutdown.append(on_shutdown)
 
 if __name__ == "__main__":
-    import sys
-
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-
-    loop.run_until_complete(main())
+    port = int(os.environ.get("PORT", 5000))
+    web.run_app(app, host="0.0.0.0", port=port)
