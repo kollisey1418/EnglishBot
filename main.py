@@ -14,7 +14,7 @@ API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
 WEBHOOK_PATH = f"/bot/{API_TOKEN}"
-WEBHOOK_URL = f"https://englishbot-production.up.railway.app/bot/{API_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 print("🔑 API_TOKEN =", API_TOKEN)
 
@@ -90,7 +90,6 @@ async def level_callback(callback: types.CallbackQuery):
     if level in ["A1", "A2", "B1", "B2", "C1", "C2"]:
         await set_user_level(user_id, level)
         await callback.message.answer(f"Your level is set to {level}.")
-        # Отправка приветственного задания сразу после выбора уровня
         prompt = f"Write a friendly greeting and ask the user a simple question about their daily routine in English, according to CEFR level {level}."
         text = await ask_openrouter(prompt)
         await callback.message.answer(text)
@@ -107,38 +106,25 @@ async def handle_message(message: types.Message):
     reply = await ask_openrouter(prompt)
     await message.answer(reply)
 
-# Webhook handler
-async def handle(request):
-    data = await request.json()
-    update = types.Update(**data)
-    await dp.feed_update(bot, update)
-    return web.Response()
-
-# Startup
-async def on_startup(app):
+# Main app
+async def main():
     await init_db()
     scheduler.start()
     schedule_daily_message()
+
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_webhook(WEBHOOK_URL)
     print(f"✅ Webhook set: {WEBHOOK_URL}")
 
-# Shutdown
-async def on_shutdown(app):
-    await bot.delete_webhook()
-    await bot.session.close()
-    print("🛑 Webhook deleted and bot session closed")
+    # Используем aiogram webhook server напрямую
+    from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-# Main app
-def main():
     app = web.Application()
-    app.router.add_post(WEBHOOK_PATH, handle)
-    app.on_startup.append(on_startup)
-    app.on_shutdown.append(on_shutdown)
+    SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
+    setup_application(app, dp, bot=bot)
 
     port = int(os.environ.get("PORT", 5000))
     web.run_app(app, host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
-
-    main()
+    asyncio.run(main())
