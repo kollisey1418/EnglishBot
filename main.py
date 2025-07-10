@@ -85,6 +85,11 @@ async def level_callback(callback: types.CallbackQuery):
     if level in ["A1", "A2", "B1", "B2", "C1", "C2"]:
         await set_user_level(user_id, level)
         await callback.message.answer(f"Your level is set to {level}.")
+        # Отправка приветственного задания сразу после выбора уровня
+        prompt = f"Write a friendly greeting and ask the user a simple question about their daily routine in English, according to CEFR level {level}."
+        text = await ask_openrouter(prompt)
+        await callback.message.answer(text)
+
         await callback.answer()
 
 # Обработка всех сообщений
