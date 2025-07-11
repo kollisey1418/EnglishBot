@@ -36,7 +36,7 @@ async def ask_openrouter(prompt):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://yourapp.com",
+        "HTTP-Referer": "https://englishbot-production.up.railway.app",
     }
     json_data = {
         "model": "openai/gpt-3.5-turbo",

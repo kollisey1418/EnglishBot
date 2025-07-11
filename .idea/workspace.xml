@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Добавил текстовый файл с перечнем зависимостей для railway" />
+    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Добавил текстовый файл с перечнем зависимостей для railway">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +68,7 @@
       <updated>1752161189269</updated>
       <workItem from="1752161190304" duration="3147000" />
       <workItem from="1752164509149" duration="12211000" />
-      <workItem from="1752245008843" duration="8876000" />
+      <workItem from="1752245008843" duration="10874000" />
     </task>
     <task id="LOCAL-00001" summary="Начало для Чат-бота">
       <option name="closed" value="true" />
@@ -324,7 +326,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752254663859</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Добавил текстовый файл с перечнем зависимостей для railway">
+      <option name="closed" value="true" />
+      <created>1752255028159</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1752255028159</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
