@@ -88,6 +88,7 @@ def schedule_daily_message():
     scheduler.remove_all_jobs()
     for hour in range(10, 21):
         random_minute = random.randint(0, 59)
+        logger.info(f"Adding job for hour {hour}, minute {random_minute}")
         scheduler.add_job(send_random_message, 'cron', hour=hour, minute=random_minute)
 
 @dp.message(Command("start"))
