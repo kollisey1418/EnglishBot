@@ -53,7 +53,7 @@ async def check_openrouter_connection():
 
 
 async def ask_openrouter(prompt):
-    url = "https://openrouter.ai/chat?models=mistralai/mistral-small-3.1-24b-instruct:free"
+    url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
