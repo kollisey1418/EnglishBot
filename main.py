@@ -7,11 +7,17 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiohttp import web
 import aiohttp
 
+
+
 from database import init_db, set_user_level, get_user_level
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 API_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-WEBHOOK_HOST = os.getenv("WEBHOOK_HOST")
+WEBHOOK_HOST = "{WEBHOOK_HOST}"
 WEBHOOK_PATH = f"/bot/{API_TOKEN}"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
@@ -65,6 +71,7 @@ def schedule_daily_message():
 
 @dp.message(Command("start"))
 async def start_cmd(message: types.Message):
+    print("Received /start command")
     await message.answer("Welcome! Please choose your English level:", reply_markup=level_keyboard())
 
 @dp.message(Command("change"))
@@ -96,7 +103,10 @@ async def handle_message(message: types.Message):
 async def handle(request):
     data = await request.json()
     print("Received webhook:", data)
+    update = types.Update(**data)
+    await dp.feed_update(bot, update)
     return web.Response()
+
 
 
 async def on_startup(app):
