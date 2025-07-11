@@ -60,7 +60,7 @@ async def ask_openrouter(prompt):
         "HTTP-Referer": "https://englishbot-production.up.railway.app",
     }
     json_data = {
-        "model": "openai/gpt-3.5-turbo",
+        "model": "mistralai/mistral-small-3.1-24b-instruct:free",
         "messages": [{"role": "user", "content": prompt}],
     }
 
