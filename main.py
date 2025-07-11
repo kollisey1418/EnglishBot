@@ -95,9 +95,9 @@ async def handle_message(message: types.Message):
 
 async def handle(request):
     data = await request.json()
-    update = types.Update(**data)
-    await dp.feed_update(bot, update)
+    print("Received webhook:", data)
     return web.Response()
+
 
 async def on_startup(app):
     await init_db()
