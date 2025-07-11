@@ -6,6 +6,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiohttp import web
 import aiohttp
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 
@@ -30,6 +33,24 @@ scheduler = AsyncIOScheduler()
 def level_keyboard():
     kb = [[InlineKeyboardButton(text=level, callback_data=level)] for level in ["A1", "A2", "B1", "B2", "C1", "C2"]]
     return InlineKeyboardMarkup(inline_keyboard=kb)
+
+async def check_openrouter_connection():
+    url = "https://openrouter.ai/api/v1/models"
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    logger.info("Checking connection to OpenRouter...")
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, headers=headers) as resp:
+                data = await resp.json()
+                logger.info(f"OpenRouter connection OK. Models available: {list(model['id'] for model in data.get('data', []))}")
+    except Exception as e:
+        logger.error(f"Failed to connect to OpenRouter: {e}")
+
 
 async def ask_openrouter(prompt):
     url = "https://openrouter.ai/api/v1/chat/completions"
@@ -111,6 +132,7 @@ async def handle(request):
 
 async def on_startup(app):
     await init_db()
+    await check_openrouter_connection()
     scheduler.start()
     schedule_daily_message()
     await bot.set_webhook(WEBHOOK_URL)
