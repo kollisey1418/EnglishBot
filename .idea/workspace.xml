@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Добавил текстовый файл с перечнем зависимостей для railway">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="a1024032-d6d2-4c2a-b882-3e11e9cf415d" name="Changes" comment="Добавил ограничение для  сообщений в день&#10;Поддрежание прошлой темы при повторной активации бота&#10;Сохраняется в постгрес на Railway" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +67,7 @@
       <workItem from="1752161190304" duration="3147000" />
       <workItem from="1752164509149" duration="12211000" />
       <workItem from="1752245008843" duration="14923000" />
-      <workItem from="1752423617619" duration="5235000" />
+      <workItem from="1752423617619" duration="6135000" />
     </task>
     <task id="LOCAL-00001" summary="Начало для Чат-бота">
       <option name="closed" value="true" />
@@ -386,7 +381,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752262939371</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Добавил ограничение для  сообщений в день&#10;Поддрежание прошлой темы при повторной активации бота&#10;Сохраняется в постгрес на Railway">
+      <option name="closed" value="true" />
+      <created>1752429152214</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1752429152214</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,7 +398,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Начало для Чат-бота" />
     <MESSAGE value="Добавил текстовый файл с перечнем зависимостей для railway" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил текстовый файл с перечнем зависимостей для railway" />
+    <MESSAGE value="Добавил ограничение для  сообщений в день&#10;Поддрежание прошлой темы при повторной активации бота&#10;Сохраняется в постгрес на Railway" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил ограничение для  сообщений в день&#10;Поддрежание прошлой темы при повторной активации бота&#10;Сохраняется в постгрес на Railway" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EnglishBot$main.coverage" NAME="main Coverage Results" MODIFIED="1752426452777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

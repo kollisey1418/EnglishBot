@@ -175,7 +175,9 @@ async def handle_message(message: types.Message):
     if not all(ord(c) < 128 for c in text):
         await message.answer("Sorry, I can only understand English. Please write in English.")
         return
-    prompt = f"Answer the user's message in English: {text}"
+    user_id = message.from_user.id
+    level = await get_user_level(user_id)
+    prompt = f"Answer the user's message in English according to CEFR level {level}. User said: {text}"
     reply = await ask_openrouter(prompt)
     await message.answer(reply)
 
