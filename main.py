@@ -9,7 +9,13 @@ import aiohttp
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+from database import UserInteraction, async_session
+from database import User
 
+
+
+from datetime import datetime, timedelta
+from sqlalchemy.future import select
 
 
 from database import init_db, set_user_level, get_user_level
@@ -70,19 +76,70 @@ async def ask_openrouter(prompt):
             print("OpenRouter response:", data)
             return data.get("choices", [{}])[0].get("message", {}).get("content", "No response")
 
+async def update_user_interaction(user_id: int, user_sent=False, bot_sent=False):
+    async with async_session() as session:
+        interaction = await session.get(UserInteraction, user_id)
+
+        now = datetime.utcnow()
+        today = now.date()
+
+        if not interaction:
+            interaction = UserInteraction(user_id=user_id)
+            session.add(interaction)
+
+        # Reset counter if новый день
+        if interaction.last_reset_date.date() < today:
+            interaction.messages_sent_today = 0
+            interaction.last_reset_date = now
+
+        if user_sent:
+            interaction.last_user_message_ts = now
+
+        if bot_sent:
+            interaction.last_bot_message_ts = now
+            interaction.messages_sent_today += 1
+
+        await session.commit()
+
+async def can_send_bot_message(user_id: int) -> bool:
+    async with async_session() as session:
+        interaction = await session.get(UserInteraction, user_id)
+        now = datetime.utcnow()
+
+        if not interaction:
+            return True  # если нет данных, можно отправить
+
+        # если 3 сообщения уже отправлены сегодня
+        if interaction.messages_sent_today >= 3:
+            return False
+
+        # если с момента последнего сообщения прошло менее 180 минут
+        if interaction.last_bot_message_ts and interaction.last_user_message_ts:
+            if interaction.last_user_message_ts < interaction.last_bot_message_ts:
+                time_diff = now - interaction.last_bot_message_ts
+                if time_diff < timedelta(minutes=180):
+                    return False
+
+        return True
+
+
 async def send_random_message():
     users = await get_all_users()
     for user_id, level in users:
         prompt = f"Write a friendly greeting and ask the user a simple question about their daily routine in English, according to CEFR level {level}."
         text = await ask_openrouter(prompt)
         await bot.send_message(user_id, text)
+        if await can_send_bot_message(user_id):
+            prompt = "продолжи тему"
+            ai_response = await ask_openrouter(prompt)  # твой код генерации
+            await bot.send_message(user_id, ai_response)
+            await update_user_interaction(user_id, bot_sent=True)
+
 
 async def get_all_users():
-    import aiosqlite
-    DB_NAME = "englishbot.db"
-    async with aiosqlite.connect(DB_NAME) as db:
-        async with db.execute("SELECT user_id, level FROM users") as cursor:
-            return await cursor.fetchall()
+    async with async_session() as session:
+        result = await session.execute(select(User.user_id, User.level))
+        return result.all()
 
 def schedule_daily_message():
     scheduler.remove_all_jobs()
